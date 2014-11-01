@@ -39,4 +39,4 @@ module.exports = {
 			'public/components/*/tests/*.js'
 		]
 	}
-}
+};
