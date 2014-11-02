@@ -5,4 +5,4 @@ module.exports = {
     app: {
         title: 'MEAN Gulp - Development Environment'
     }
-}
+};

@@ -46,7 +46,7 @@ module.exports = function(db) {
 
     app.engine('server.view.html', consolidate[config.templateEngine]);
 
-    app.set('view engine', 'server.view.html')
+    app.set('view engine', 'server.view.html');
     // set the default views location
     // todo: would like this to support multiple view locations so they can exist specific component folders
     app.set('views', './app/components/views');
@@ -107,7 +107,6 @@ module.exports = function(db) {
         if (!err) {
             return next();
         }
-        console.error(err.stack);
 
         res.status(500).render('500', {
             error: err.stack
@@ -123,4 +122,4 @@ module.exports = function(db) {
     });
 
     return app;
-}
+};

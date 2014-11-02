@@ -8,9 +8,11 @@ var gulp = require('gulp'),
         bowerDir: './bower_components'
     };
 
-gulp.task('bower', function() {
-    return gulpins.bower()
-        .pipe(gulp.dest(config.bowerDir));
+gulp.task('jshint', function() {
+    return gulp.src(['app/components/**/*.js', 'public/**/*js'])
+        .pipe(gulpins.jshint())
+        .pipe(gulpins.jshint.reporter('jshint-stylish'))
+        .pipe(gulpins.jshint.reporter('fail'));
 });
 
 gulp.task('sass', function() {
@@ -35,12 +37,6 @@ gulp.task('css', function() {
         .pipe(gulp.dest('./public/dist'));
 });
 
-gulp.task('connect', function() {
-    gulpins.nodemon({
-        script: 'server.js'
-    });
-});
-
 gulp.task('watch', function() {
     var livereload = gulpins.livereload(),
         doReload = function(evt) {
@@ -48,22 +44,47 @@ gulp.task('watch', function() {
         };
 
     // livereload watch
-    gulp.watch('app/components/views/**/*.*').on('change', doReload);
-    gulp.watch(['gulpfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js']).on('change', doReload);
-    gulp.watch('public/components/**/*.html').on('change', doReload);
-    gulp.watch('public/**/*.js').on('change', doReload);
-    gulp.watch('public/**/*.css').on('change', doReload);
-    gulp.watch('app/components/tests/**/*.js').on('change', doReload);
-    gulp.watch('app/components/tests/**/*.js').on('change', doReload);
+    //
+    gulp.watch([
+        'app/components/views/**/*.*',
+        'public/components/**/*.html'
+    ]).on('change', doReload);
+
+    gulp.watch([
+        'gulpfile.js',
+        'server.js',
+        'config/**/*.js',
+        'app/**/*.js',
+        'public/**/*.js',
+        'app/components/tests/**/*.js'
+    ], ['jshint']).on('change', doReload);
+
+    gulp.watch([
+        'public/**/*.css'
+    ], ['css']).on('change', doReload);
+
     // Sass update watch
-    gulp.watch(config.sassPath, ['sass']); 
+    gulp.watch([
+        'public/**/*.scss'
+    ], ['sass']);
 
 });
 
-gulp.task('serve', ['connect', 'bower', 'watch', 'sass', 'css'], function() {
+gulp.task('bower', function() {
+    return gulpins.bower()
+        .pipe(gulp.dest(config.bowerDir));
+});
+
+gulp.task('connect', function() {
+    gulpins.nodemon({
+        script: 'server.js'
+    });
+});
+
+gulp.task('build', ['connect', 'bower', 'watch', 'jshint', 'sass', 'css'], function() {
     //console.log('This will start the server');
 });
 
 gulp.task('default', function() {
-
+    gulp.start('build');
 });
