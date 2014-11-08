@@ -22,3 +22,7 @@ Temporary Items
 
 #Sass cache files
 .sass-cache
+
+# NPM and Bower
+node_modules
+bower_components

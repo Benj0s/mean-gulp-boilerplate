@@ -21,8 +21,8 @@
         <!-- Fav icon -->
         <link href="/components/core/img/brand/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-        {% for cssFile in cssFiles %}
         <!-- Application css files -->
+        {% for cssFile in cssFiles %}
         <link rel="stylesheet" href="{{cssFile}}">
         {% endfor %}
 
@@ -36,20 +36,22 @@
 
         <header>
             <nav class="navbar navbar-inverse navbar-fixed-top">
-                <a class="navbar-brand" href="#">MEAN Gulp Boilerplate</a>
+                <div class="container">
+                    <a class="navbar-brand" href="#">MEAN Gulp Boilerplate</a>
+                </div>
             </nav>
         </header>
 
-        <section class="content">
+        <section class="container starter-template">
             {% block content %}{% endblock %}
         </section>
 
         <footer>
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            
-            {% for jsFile in jsFiles %}
+
             <!-- Application js files -->
+            {% for jsFile in jsFiles %}
             <script type="text/javascript" src="{{jsFile}}"></script>
             {% endfor %}
 
