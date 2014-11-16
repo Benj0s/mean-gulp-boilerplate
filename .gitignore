@@ -26,3 +26,5 @@ Temporary Items
 # NPM and Bower
 node_modules
 bower_components
+npm-debug.log
+public/lib

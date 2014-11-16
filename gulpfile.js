@@ -5,11 +5,11 @@ var gulp = require('gulp'),
     config = {
         sassPath: './public/components/**/*.scss',
         cssPath: './public/components/**/*.css!(.map)',
-        bowerDir: './bower_components'
+        bowerDir: './public/lib'
     };
 
 gulp.task('jshint', function() {
-    return gulp.src(['app/components/**/*.js', 'public/**/*js'])
+    return gulp.src(['app/components/**/*.js', 'public/*[!lib]*/*js'])
         .pipe(gulpins.jshint())
         .pipe(gulpins.jshint.reporter('jshint-stylish'))
         .pipe(gulpins.jshint.reporter('fail'));
@@ -55,8 +55,7 @@ gulp.task('watch', function() {
         'server.js',
         'config/**/*.js',
         'app/**/*.js',
-        'public/**/*.js',
-        'app/components/tests/**/*.js'
+        'public/*[!lib]*/*js'
     ], ['jshint']).on('change', doReload);
 
     gulp.watch([
@@ -68,6 +67,22 @@ gulp.task('watch', function() {
         'public/**/*.scss'
     ], ['sass']);
 
+});
+
+gulp.task('test', function() {
+    return gulp.src(['app/components/**/*.test.js'])
+        .pipe(gulpins.mocha({
+            reporter: 'spec',
+            require: 'server.js',
+            globals: {
+                should: require('should'),
+                server: require('./server.js')
+            }
+        })
+        .once('end', function() {
+            process.exit();
+        })
+    );
 });
 
 gulp.task('bower', function() {

@@ -1,3 +1,15 @@
 {
-    "node": true
+    "node": true,
+    "globals": {
+        "jasmine": false,
+        "it": false,
+        "console": false,
+        "describe": false,
+        "expect": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "waits": false,
+        "waitsFor": false,
+        "runs": false
+    }
 }
